@@ -1,0 +1,38 @@
+.title {
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
+}
+
+.card {
+  margin: 0 auto; /* Center the card */
+  padding: 0.5rem;
+  border-radius: 10px;
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
+  width: 100%; /* Let the card fill the available space in the content area */
+  max-width: 800px; /* Prevent it from being too wide */
+}
+
+.chartContainer {
+  width: 100%; /* Ensure the chart takes full width of the card */
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (min-width: 769px) {
+  .card {
+    width: 50%; /* Reduce width on large screens */
+    max-width: 800px;
+  }
+}
+
+@media (max-width: 768px) {
+  .card {
+    width: 100%; /* Full width on small screens */
+  }
+}
