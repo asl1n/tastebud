@@ -1,11 +1,18 @@
 import React, { useState } from 'react';
+import styles from './UserTableBody.module.css';
 
 const UserTableBody = ({ userItems, onDelete }) => {
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedUserId, setSelectedUserId] = useState(null);
 
-    const handleDeleteClick = (id) => {
-        setSelectedUserId(id);
+    const togglePopup = (userId) => {
+        setSelectedUserId(userId);
+        setIsPopupOpen((prev) => !prev);
+    };
+
+    const handleDeleteClick = () => {
+        setIsPopupOpen(false);
         setIsModalOpen(true);
     };
 
@@ -38,13 +45,27 @@ const UserTableBody = ({ userItems, onDelete }) => {
                                 <td className="py-3 px-4">{item.id}</td>
                                 <td className="py-3 px-4">{item.created}</td>
                                 <td className="py-3 px-4">{item.name}</td>
-                                <td className="py-3 px-4 text-right">
+                                <td className="py-3 px-4 text-right relative">
                                     <button
-                                        onClick={() => handleDeleteClick(item.id)}
-                                        className="text-red-500 hover:text-red-700 text-lg font-bold"
+                                        onClick={() => togglePopup(item.id)}
+                                        className="text-gray-500 hover:text-gray-700"
                                     >
-                                        &times;
+                                        •••
                                     </button>
+                                    {isPopupOpen && selectedUserId === item.id && (
+                                        <div
+                                            className={`${styles.popup} ${
+                                                window.innerWidth < 768 ? styles.mobilePopup : ''
+                                            }`}
+                                        >
+                                            <button
+                                                onClick={handleDeleteClick}
+                                                className={`${styles.popupButton} ${styles.deleteButton}`}
+                                            >
+                                                Delete
+                                            </button>
+                                        </div>
+                                    )}
                                 </td>
                             </tr>
                         ))
@@ -70,7 +91,6 @@ const UserTableBody = ({ userItems, onDelete }) => {
                             >
                                 Yes
                             </button>
-                            
                             <button
                                 onClick={cancelDelete}
                                 className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"

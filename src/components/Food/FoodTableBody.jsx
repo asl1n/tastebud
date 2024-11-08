@@ -1,23 +1,23 @@
 import React, { useState } from 'react';
+import styles from './FoodTableBody.module.css';
 
-const FoodTableBody = ({ foodItems, onDelete }) => {
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [selectedFoodId, setSelectedFoodId] = useState(null);
+const FoodTableBody = ({ foodItems, onDelete, onView }) => {
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const [selectedFood, setSelectedFood] = useState(null);
 
-    const handleDeleteClick = (id) => {
-        setSelectedFoodId(id);
-        setIsModalOpen(true);
+    const togglePopup = (food) => {
+        setSelectedFood(food);
+        setIsPopupOpen((prev) => !prev);
     };
 
-    const confirmDelete = () => {
-        onDelete(selectedFoodId);
-        setIsModalOpen(false);
-        setSelectedFoodId(null);
+    const handleView = (food) => {
+        onView(food);
+        setIsPopupOpen(false); 
     };
 
-    const cancelDelete = () => {
-        setIsModalOpen(false);
-        setSelectedFoodId(null);
+    const handleDelete = (id) => {
+        onDelete(id);
+        setIsPopupOpen(false); 
     };
 
     return (
@@ -38,48 +38,45 @@ const FoodTableBody = ({ foodItems, onDelete }) => {
                                 <td className="py-3 px-4">{item.id}</td>
                                 <td className="py-3 px-4">{item.name}</td>
                                 <td className="py-3 px-4">{item.price}</td>
-                                <td className="py-3 px-4 text-right">
+                                <td className="py-3 px-4 text-right relative">
                                     <button
-                                        onClick={() => handleDeleteClick(item.id)}
-                                        className="text-red-500 hover:text-red-700 text-lg font-bold"
+                                        onClick={() => togglePopup(item)}
+                                        className="text-gray-500 hover:text-gray-700"
                                     >
-                                        &times;
+                                        •••
                                     </button>
+                                    {isPopupOpen && selectedFood?.id === item.id && (
+                                        <div
+                                            className={`${styles.popup} ${
+                                                window.innerWidth < 768 ? styles.mobilePopup : ''
+                                            }`}
+                                        >
+                                            <button
+                                                onClick={() => handleView(item)}
+                                                className={styles.popupButton}
+                                            >
+                                                View
+                                            </button>
+                                            <button
+                                                onClick={() => handleDelete(item.id)}
+                                                className={`${styles.popupButton} ${styles.deleteButton}`}
+                                            >
+                                                Delete
+                                            </button>
+                                        </div>
+                                    )}
                                 </td>
                             </tr>
                         ))
                     ) : (
                         <tr>
                             <td colSpan="4" className="py-6 px-4 text-center text-gray-500 font-semibold">
-                                No food items found.
+                                No food items. Press "Add" to add.
                             </td>
                         </tr>
                     )}
                 </tbody>
             </table>
-
-            {isModalOpen && (
-                <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center">
-                    <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm">
-                        <h2 className="text-xl font-semibold text-gray-800 mb-4">Are you sure?</h2>
-                        <p className="text-gray-600 mb-6">Do you really want to delete this food item?</p>
-                        <div className="flex justify-end space-x-4">
-                            <button
-                                onClick={confirmDelete}
-                                className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
-                            >
-                                Yes
-                            </button>
-                            <button
-                                onClick={cancelDelete}
-                                className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
-                            >
-                                No
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
         </>
     );
 };

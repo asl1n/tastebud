@@ -12,7 +12,7 @@ function UserTablePagination({ currentPage, totalItems, itemsPerPage, onPageChan
     };
 
     return (
-        <div className="flex items-center justify-center w-full mt-4">
+        <div className="flex justify-center">
             <div className="flex items-center justify-between w-full max-w-xs bg-gray-100 px-3 py-2 rounded-md text-xs font-semibold text-gray-700">
                 <button
                     onClick={handlePrevious}

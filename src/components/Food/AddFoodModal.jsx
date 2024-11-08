@@ -13,6 +13,13 @@ const AddFoodModal = ({ newFood, setNewFood, onClose, onAddFood }) => {
                     className="w-full px-3 py-2 mb-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                 />
                 <input
+                    type="number"
+                    placeholder="Restaurant ID"
+                    value={newFood.restaurantId}
+                    onChange={(e) => setNewFood({ ...newFood, restaurantId: e.target.value })}
+                    className="w-full px-3 py-2 mb-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
+                />
+                <input
                     type="text"
                     placeholder="Name"
                     value={newFood.name}
@@ -26,17 +33,17 @@ const AddFoodModal = ({ newFood, setNewFood, onClose, onAddFood }) => {
                     onChange={(e) => setNewFood({ ...newFood, price: e.target.value })}
                     className="w-full px-3 py-2 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                 />
+                <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => setNewFood({ ...newFood, image: e.target.files[0] })}
+                    className="w-full px-3 py-2 mb-4 border border-gray-300 rounded-md"
+                />
                 <div className="flex justify-end space-x-2">
-                    <button
-                        onClick={onClose}
-                        className="px-4 py-2 bg-gray-300 rounded-md hover:bg-gray-400"
-                    >
+                    <button onClick={onClose} className="px-4 py-2 bg-gray-300 rounded-md hover:bg-gray-400">
                         Cancel
                     </button>
-                    <button
-                        onClick={onAddFood}
-                        className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
-                    >
+                    <button onClick={onAddFood} className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600">
                         Add Food
                     </button>
                 </div>
